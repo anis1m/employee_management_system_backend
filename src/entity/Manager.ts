@@ -7,7 +7,7 @@ export class Manager {
   Id!: number;
 
   @Column({ unique: true, length: 100 })
-  Name!: string;
+  Email!: string;
 
   @OneToMany(() => Employee, (employee) => employee.ReportingManager)
   Employees!: Employee[];

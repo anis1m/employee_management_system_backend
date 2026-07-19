@@ -13,10 +13,10 @@ export class Employee {
   @PrimaryGeneratedColumn()
   Id!: number;
 
-  @Column({ unique: true, length: 20 })
+  @Column({ unique: true, length: 20, nullable: true })
   EmployeeId!: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
   Name!: string;
 
   @Column({ unique: true, length: 100 })
@@ -25,20 +25,24 @@ export class Employee {
   @Column({ length: 15 })
   Phone!: string;
 
-  @ManyToOne(() => Department, (department) => department.Employees)
-  Department!: number;
+  @ManyToOne(() => Department, (department) => department.Employees, {
+    nullable: true,
+  })
+  Department!: Department;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
   Designation!: string;
 
   @Column("decimal", {
     precision: 10,
     scale: 2,
+    nullable: true,
   })
   Salary!: number;
 
   @Column({
     type: "date",
+    nullable: true,
   })
   JoiningDate!: Date;
 
@@ -46,18 +50,25 @@ export class Employee {
     type: "enum",
     enum: EmployeeStatus,
     default: EmployeeStatus.ACTIVE,
+    nullable: true,
   })
   Status!: EmployeeStatus;
 
   @ManyToOne(() => Role)
-  Role!: number;
+  Role!: Role;
 
-  @ManyToOne(() => Manager, (manager) => manager.Employees)
-  ReportingManager!: number;
+  @ManyToOne(() => Manager, (manager) => manager.Employees, {
+    nullable: true,
+    onDelete: "SET NULL",
+  })
+  ReportingManager!: Manager;
 
   @Column({
     nullable: true,
     length: 255,
   })
   ProfileImage!: string;
+
+  @Column({ length: 100 })
+  Password!: string;
 }
